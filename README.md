@@ -13,11 +13,12 @@ O sistema a ser desenvolvido consiste em uma plataforma web estruturada como um 
 - Tamires Franciele Silva Leandro — Desenvolvedora FrontEnd
 - Thiago Ker Gama Nunes Carvalho — Desenvolvedor FullStack
 - Tiago Henrique Souza Santos — Desenvolvedor FrontEnd
+  
 
 ### ⚙️ 3. Tecnologias
 
 - Linguagem: Python
-- Frontend: HTML, CSS
+- Frontend: HTML, CSS / JavaScript
 - Banco de Dados: PostgreSQL
 - Frameworks: Flask, Figma
 
