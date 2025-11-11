@@ -62,5 +62,4 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 1. Revisar design e corrigir inconsistências visuais
 2. Implementar mensagens de feedback (sucesso e erro)
 3. Otimizar consultas ao banco e desempenho do sistema
-4. Configurar variáveis de ambiente e deploy em servidor (ex: Render, Railway ou Heroku)
-5. Testar o sistema em ambiente de produção
+4. Testar o sistema final
