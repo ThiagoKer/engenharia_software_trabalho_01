@@ -7,15 +7,19 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 
 ### 👥 2. Membros da Equipe e Papéis
 
-- Davi Zanotti Costa Melo —  Desenvolvedor Back-End.
+- Davi Zanotti Costa Melo — Desenvolvedor Back-End.
 - Ewerton Gomes Barcia — Engenheiro de Dados.
-- Gustavo Guimarães de Oliveira Dias - Desenvolvedor FullStack.
-- Tamires Franciele Silva Leandro - Desenvolvedora FrontEnd.
-- Thiago Ker Gama Nunes Carvalho - Desenvolvedor BackEnd.
-- Tiago Henrique Souza Santos - Desenvolvedor FrontEnd.
+- Gustavo Guimarães de Oliveira Dias — Desenvolvedor FullStack.
+- Tamires Franciele Silva Leandro — Desenvolvedora FrontEnd.
+- Thiago Ker Gama Nunes Carvalho — Desenvolvedor BackEnd.
+- Tiago Henrique Souza Santos — Desenvolvedor FrontEnd.
 
 ### ⚙️ 3. Tecnologias
-... (etc.) ...
+
+- Linguagem: Python
+- Framework Backend: Flask
+- Frontend: HTML, CSS
+- Banco de Dados: PostgreSQL
 
 ### 📋 4. Backlog do Produto (Product Backlog)
 
@@ -45,5 +49,18 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 4. Implementar busca de tópicos por palavra-chave
 5. Exibir autor e data em cada postagem
 
-  
-  
+**Sprint 3 – Aperfeiçoamentos e moderação**
+
+1. Criar página de perfil do usuário
+2. Implementar sistema de curtidas e contagem de respostas
+3. Adicionar painel para moderação de postagens
+4. Melhorar responsividade e experiência do usuário
+5. Realizar testes finais e correções de bugs
+
+**Sprint 4 – Versão final e deploy**
+
+1. Revisar design e corrigir inconsistências visuais
+2. Implementar mensagens de feedback (sucesso e erro)
+3. Otimizar consultas ao banco e desempenho do sistema
+4. Configurar variáveis de ambiente e deploy em servidor (ex: Render, Railway ou Heroku)
+5. Testar o sistema em ambiente de produção
