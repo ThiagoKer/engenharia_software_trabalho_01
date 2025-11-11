@@ -38,83 +38,82 @@ O sistema a ser desenvolvido consiste em uma plataforma web estruturada como um 
 
 ### 🗓️ 5. Backlog da Sprint (Sprint Backlog)
 
-** Sprint 1 – Estrutura Inicial e Autenticação **
+**Sprint 1 – Estrutura Inicial e Autenticação**
 
-História #1: Como usuário, eu gostaria de me cadastrar e realizar login no sistema
-● Tarefas e responsáveis:
-  ○ Configurar o ambiente Flask e PostgreSQL – Thiago (Back-End)
-  ○ Criar o modelo de usuário (tabela e autenticação) – Davi (Back-End)
-  ○ Implementar rotas de cadastro e login – Gustavo (FullStack)
-  ○ Criar formulários de login e cadastro – Tamires (Front-End)
-  ○ Testar autenticação e fluxo completo – Tiago (Front-End)
+História #1: Como usuário, eu gostaria de me cadastrar e realizar login no sistema<br>
+● Tarefas e responsáveis:<br>
+  ○ Configurar o ambiente Flask e PostgreSQL – Thiago (Back-End)<br>
+  ○ Criar o modelo de usuário (tabela e autenticação) – Davi (Back-End)<br>
+  ○ Implementar rotas de cadastro e login – Gustavo (FullStack)<br>
+  ○ Criar formulários de login e cadastro – Tamires (Front-End)<br>
+  ○ Testar autenticação e fluxo completo – Tiago (Front-End)<br>
   
-História #6: Como usuário, eu gostaria de visualizar a página inicial com os tópicos mais recentes
-● Tarefas e responsáveis:
-  ○ Desenvolver layout da página inicial – Tiago (Front-End)
-  ○ Criar rota para listar tópicos recentes – Thiago (Back-End)
-  ○ Integrar backend e frontend – Gustavo (FullStack)
-  ○ Testar visualização e carregamento – Ewerton (Eng. Dados)
+História #6: Como usuário, eu gostaria de visualizar a página inicial com os tópicos mais recentes<br>
+● Tarefas e responsáveis:<br>
+  ○ Desenvolver layout da página inicial – Tiago (Front-End)<br>
+  ○ Criar rota para listar tópicos recentes – Thiago (Back-End)<br>
+  ○ Integrar backend e frontend – Gustavo (FullStack)<br>
+  ○ Testar visualização e carregamento – Ewerton (Eng. Dados)<br>
 
-** Sprint 2 – Estrutura dos Tópicos **
+**Sprint 2 – Estrutura dos Tópicos**
 
-História #3: Como usuário, eu gostaria de criar e excluir tópicos no fórum
+História #3: Como usuário, eu gostaria de criar e excluir tópicos no fórum<br>
+● Tarefas e responsáveis:<br>
+  ○ Criar modelo de tópicos – Davi (Back-End)<br>
+  ○ Implementar rotas de criação e exclusão – Thiago (Back-End)<br>
+  ○ Criar formulário de criação de tópicos – Tamires (Front-End)<br>
+  ○ Testar criação/exclusão – Tiago (Front-End)<br>
 
-● Tarefas e responsáveis:
-  ○ Criar modelo de tópicos – Davi (Back-End)
-  ○ Implementar rotas de criação e exclusão – Thiago (Back-End)
-  ○ Criar formulário de criação de tópicos – Tamires (Front-End)
-  ○ Testar criação/exclusão – Tiago (Front-End)
+História #4: Como usuário, eu gostaria de editar meus tópicos após a publicação<br>
+● Tarefas e responsáveis:<br>
+  ○ Implementar rota de edição de tópicos – Gustavo (FullStack)<br>
+  ○ Criar interface de edição – Tamires (Front-End)<br>
+  ○ Validar permissões (autor) – Ewerton (Eng. Dados)<br>
+  ○ Testar edição – Davi (Back-End)<br>
 
-História #4: Como usuário, eu gostaria de editar meus tópicos após a publicação
-● Tarefas e responsáveis:
-  ○ Implementar rota de edição de tópicos – Gustavo (FullStack)
-  ○ Criar interface de edição – Tamires (Front-End)
-  ○ Validar permissões (autor) – Ewerton (Eng. Dados)
-  ○ Testar edição – Davi (Back-End)
+**Sprint 3 – Interações e Pesquisa**
 
-** Sprint 3 – Interações e Pesquisa **
+História #5: Como usuário, eu gostaria de comentar e curtir postagens de outros usuários<br>
+● Tarefas e responsáveis:<br>
+  ○ Criar modelo de comentários e curtidas – Ewerton (Eng. Dados)<br>
+  ○ Implementar rotas de comentários e curtidas – Davi (Back-End)<br>
+  ○ Integrar comentários/curtidas na interface – Tiago (Front-End)<br>
+  ○ Testar interações – Gustavo (FullStack)<br>
 
-História #5: Como usuário, eu gostaria de comentar e curtir postagens de outros usuários
-● Tarefas e responsáveis:
-  ○ Criar modelo de comentários e curtidas – Ewerton (Eng. Dados)
-  ○ Implementar rotas de comentários e curtidas – Davi (Back-End)
-  ○ Integrar comentários/curtidas na interface – Tiago (Front-End)
-  ○ Testar interações – Gustavo (FullStack)
+História #7: Como usuário, eu gostaria de navegar por categorias organizadas por tema<br>
+● Tarefas e responsáveis:<br>
+  ○ Criar modelo de categorias – Ewerton (Eng. Dados)<br>
+  ○ Implementar lista de categorias – Thiago (Back-End)<br>
+  ○ Criar interface de categorias – Tamires (Front-End)<br>
+  ○ Integrar filtro por categorias – Gustavo (FullStack)<br>
 
-História #7: Como usuário, eu gostaria de navegar por categorias organizadas por tema
-● Tarefas e responsáveis:
-  ○ Criar modelo de categorias – Ewerton (Eng. Dados)
-  ○ Implementar lista de categorias – Thiago (Back-End)
-  ○ Criar interface de categorias – Tamires (Front-End)
-  ○ Integrar filtro por categorias – Gustavo (FullStack)
+História #8: Como usuário, eu gostaria de pesquisar tópicos por título, categoria ou palavra-chave<br>
+● Tarefas e responsáveis:<br>
+  ○ Implementar mecanismo de busca backend – Davi (Back-End)<br>
+  ○ Criar barra de pesquisa – Tiago (Front-End)<br>
+  ○ Integrar resultados à listagem – Gustavo (FullStack)<br>
+  ○ Testar diferentes filtros – Tamires (Front-End)<br>
 
-História #8: Como usuário, eu gostaria de pesquisar tópicos por título, categoria ou palavra-chave
-● Tarefas e responsáveis:
-  ○ Implementar mecanismo de busca backend – Davi (Back-End)
-  ○ Criar barra de pesquisa – Tiago (Front-End)
-  ○ Integrar resultados à listagem – Gustavo (FullStack)
-  ○ Testar diferentes filtros – Tamires (Front-End)
+**Sprint 4 – Administração e Moderação** 
 
-** Sprint 4 – Administração e Moderação** 
+História #2: Como usuário, eu gostaria de editar e excluir meu próprio perfil<br>
+● Tarefas e responsáveis:<br>
+  ○ Criar rotas de edição e exclusão de perfil – Thiago (Back-End)<br>
+  ○ Implementar página de edição – Tamires (Front-End)<br>
+  ○ Validar permissões – Davi (Back-End)<br>
+  ○ Testar fluxo completo – Tiago (Front-End)<br>
 
-História #2: Como usuário, eu gostaria de editar e excluir meu próprio perfil
-● Tarefas e responsáveis:
-  ○ Criar rotas de edição e exclusão de perfil – Thiago (Back-End)
-  ○ Implementar página de edição – Tamires (Front-End)
-  ○ Validar permissões – Davi (Back-End)
-  ○ Testar fluxo completo – Tiago (Front-End)
+História #9: Como admin, eu gostaria de gerenciar categorias (criar, editar, remover)<br>
+● Tarefas e responsáveis:<br>
+  ○ Criar rotas administrativas – Gustavo (FullStack)<br>
+  ○ Desenvolver interface admin – Tamires (Front-End)<br>
+  ○ Aplicar regras de autorização – Thiago (Back-End)<br>
+  ○ Testar gerenciamento – Ewerton (Eng. Dados)<br>
 
-História #9: Como admin, eu gostaria de gerenciar categorias (criar, editar, remover)
-● Tarefas e responsáveis:
-  ○ Criar rotas administrativas – Gustavo (FullStack)
-  ○ Desenvolver interface admin – Tamires (Front-End)
-  ○ Aplicar regras de autorização – Thiago (Back-End)
-  ○ Testar gerenciamento – Ewerton (Eng. Dados)
-
-História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usuários que violem regras
-● Tarefas e responsáveis:
-  ○ Implementar rotas de moderação – Davi (Back-End)
-  ○ Criar painel administrativo – Tiago (Front-End)
-  ○ Implementar regras de autorização admin – Gustavo (FullStack)
-  ○ Testar moderação – Ewerton (Eng. Dados)
+História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usuários que violem regras<br>
+● Tarefas e responsáveis:<br>
+  ○ Implementar rotas de moderação – Davi (Back-End)<br>
+  ○ Criar painel administrativo – Tiago (Front-End)<br>
+  ○ Implementar regras de autorização admin – Gustavo (FullStack)<br>
+  ○ Testar moderação – Ewerton (Eng. Dados)<br>
 
