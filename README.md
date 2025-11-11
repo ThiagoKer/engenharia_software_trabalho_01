@@ -7,12 +7,12 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 
 ### 👥 2. Membros da Equipe e Papéis
 
-Davi Zanotti Costa Melo —  Desenvolvedor Back-End.
-Ewerton Gomes Barcia — Engenheiro de Dados.
-Gustavo Guimarães de Oliveira Dias - Desenvolvedor FullStack.
-Tamires Franciele Silva Leandro - Desenvolvedora FrontEnd.
-Thiago Ker Gama Nunes Carvalho - Desenvolvedor BackEnd.
-Tiago Henrique Souza Santos - Desenvolvedor FrontEnd.
+- Davi Zanotti Costa Melo —  Desenvolvedor Back-End.
+- Ewerton Gomes Barcia — Engenheiro de Dados.
+- Gustavo Guimarães de Oliveira Dias - Desenvolvedor FullStack.
+- Tamires Franciele Silva Leandro - Desenvolvedora FrontEnd.
+- Thiago Ker Gama Nunes Carvalho - Desenvolvedor BackEnd.
+- Tiago Henrique Souza Santos - Desenvolvedor FrontEnd.
 
 ### ⚙️ 3. Tecnologias
 ... (etc.) ...
@@ -36,6 +36,7 @@ Tiago Henrique Souza Santos - Desenvolvedor FrontEnd.
 4. Implementar a página inicial com listagem de tópicos
 5. Criar formulários para login e cadastro
 6. Testar e validar rotas principais
+
 **Sprint 2 - Funcionalidades**
 
 1. Implementar criação e exclusão de tópicos
