@@ -28,7 +28,6 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 - Sistema de comentários e curtidas
 - Organização por categorias de jogos
 - Página inicial com tópicos recentes
-- Moderação de conteúdo
 
 ### 🗓️ 5. Backlog da Sprint (Sprint Backlog)
 
