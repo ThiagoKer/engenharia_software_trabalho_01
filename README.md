@@ -32,7 +32,7 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 
 ### 🗓️ 5. Backlog da Sprint (Sprint Backlog)
 
-**Sprint 1 - Estrutura inicial**
+**Sprint 1 – Estrutura inicial**
 
 1. Configurar o ambiente Flask e o banco de dados PostgreSQL
 2. Criar o modelo de usuário (cadastro, login e autenticação)
@@ -41,7 +41,7 @@ O sistema a ser desenvolvido é um fórum de discussão focado em jogos digitais
 5. Criar formulários para login e cadastro
 6. Testar e validar rotas principais
 
-**Sprint 2 - Funcionalidades**
+**Sprint 2 – Funcionalidades**
 
 1. Implementar criação e exclusão de tópicos
 2. Adicionar sistema de comentários
