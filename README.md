@@ -1,6 +1,6 @@
 # 💻 Projeto de Fórum - Engenharia de Software I (CSI412)
 
-# Link do portfólio: https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1
+#  [Link do Portfólio](https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1)
 
 ### 🎯 1. Escopo do Sistema (Objetivo e Principais Features)
 
