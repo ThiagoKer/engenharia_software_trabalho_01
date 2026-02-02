@@ -119,8 +119,8 @@ História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usu�
 
 📐 Diagramas UML
 - Casos de Uso: 
-- Atividades: [Acessar diagramas](https://drive.google.com/drive/u/2/folders/1s2DSJpiMd8iAnja1EsHybBJs1vpzpqyp?hl=pt-br)
-- Classes: 
+- Atividades: [Acessar Diagramas](https://drive.google.com/drive/u/2/folders/1s2DSJpiMd8iAnja1EsHybBJs1vpzpqyp?hl=pt-br)
+- Classe: [Acessar Diagrama](https://drive.google.com/drive/folders/1iugpWnK7QOA10XSCWFRmKT9f-OXiw34h?usp=sharing) 
 
 🎨 Protótipo (Figma)<br>
 [Link do Portfólio](https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1)
