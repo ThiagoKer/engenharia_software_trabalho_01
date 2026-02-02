@@ -122,5 +122,5 @@ História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usu�
 - Atividades: [Acessar diagramas](https://drive.google.com/drive/u/2/folders/1s2DSJpiMd8iAnja1EsHybBJs1vpzpqyp?hl=pt-br)
 - Classes: 
 
-🎨 Protótipo (Figma)
+🎨 Protótipo (Figma)<br>
 [Link do Portfólio](https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1)
