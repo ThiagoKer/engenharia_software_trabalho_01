@@ -1,7 +1,5 @@
 # 💻 Projeto de Fórum - Engenharia de Software I (CSI412)
 
-##  [Link do Portfólio](https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1)
-
 ### 🎯 1. Escopo do Sistema (Objetivo e Principais Features)
 
 O sistema a ser desenvolvido consiste em uma plataforma web estruturada como um fórum de discussão dedicado ao universo dos jogos digitais. Seu principal objetivo é proporcionar um ambiente organizado, acessível e interativo, no qual os usuários possam compartilhar experiências, opiniões e análises sobre diversos títulos e temas relacionados ao cenário gamer. A solução permitirá a criação de postagens, incluindo reviews e tópicos de debate, possibilitando ainda a interação entre os participantes por meio de curtidas, comentários e respostas encadeadas. Além disso, o sistema buscará oferecer uma interface intuitiva, com navegação simplificada e mecanismos que favoreçam o engajamento e a troca de conhecimento entre os usuários. Dessa forma, pretende-se construir uma plataforma que incentive a participação ativa da comunidade, garantindo usabilidade, desempenho e clareza na organização das discussões.
@@ -119,3 +117,10 @@ História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usu�
   &nbsp;&nbsp;○ Implementar regras de autorização admin – Gustavo (FullStack)<br>
   &nbsp;&nbsp;○ Testar moderação – Ewerton (Eng. Dados)<br>
 
+📐 Diagramas UML
+- Casos de Uso: 
+- Atividades: [Acessar diagramas](https://drive.google.com/drive/u/2/folders/1s2DSJpiMd8iAnja1EsHybBJs1vpzpqyp?hl=pt-br)
+- Classes: 
+
+🎨 Protótipo (Figma)
+[Link do Portfólio](https://www.figma.com/design/FByx9Tgtp1EXZZ4UCXyuWm/Untitled?node-id=0-1&t=KQobaFsNs6aVj0Mp-1)
