@@ -1,4 +1,4 @@
-# 💻 Projeto de Fórum - Engenharia de Software I (CSI412)
+# 💻 Projeto de Fórum (Gamer Alpha) - Engenharia de Software I (CSI412)
 
 ### 🎯 1. Escopo do Sistema (Objetivo e Principais Features)
 
