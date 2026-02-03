@@ -118,7 +118,7 @@ História #10: Como admin, eu gostaria de excluir tópicos, comentários ou usu�
   &nbsp;&nbsp;○ Testar moderação – Ewerton (Eng. Dados)<br>
 
 📐 Diagramas UML
-- Casos de Uso: 
+- Casos de Uso: [Acessar Diagrama](https://drive.google.com/file/d/1yI9Bqhlm_ZWd94jpGKYYR5JNDbTq0iqn/view?usp=drive_link) 
 - Atividades: [Acessar Diagramas](https://drive.google.com/drive/u/2/folders/1s2DSJpiMd8iAnja1EsHybBJs1vpzpqyp?hl=pt-br)
 - Classe: [Acessar Diagrama](https://drive.google.com/drive/folders/1iugpWnK7QOA10XSCWFRmKT9f-OXiw34h?usp=sharing) 
 
