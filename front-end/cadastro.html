@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro - Gamer Alpha</title>
 </head>
 <body>
-    
+    <div class="login-card" style="border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff;">
+        <h1>CRIAR CONTA</h1>
+        <p>Junte-se à nossa comunidade!</p>
+
+        <form action="cadastro_process.php" method="POST">
+            <div class="input-group">
+                <label>Nome de Usuário</label>
+                <input type="text" name="usuario_cadastro" placeholder="Como quer ser chamado?" required>
+            </div>
+
+            <div class="input-group">
+                <label>E-mail</label>
+                <input type="email" name="email_cadastro" placeholder="seuemail@exemplo.com" required>
+            </div>
+
+            <div class="input-group">
+                <label>Senha</label>
+                <input type="password" name="senha_cadastro" placeholder="Crie uma senha forte" required>
+            </div>
+
+            <button type="submit" class="btn-action btn-cadastro" style="background-color: #ff00ff;">CADASTRAR</button>
+        </form>
+
+        <div class="footer-links">
+            <p>Já tem conta? <a href="login.html" class="link-destaque" style="color: #ff00ff;">Fazer Login</a></p>
+        </div>
+    </div> 
 </body>
 </html>
