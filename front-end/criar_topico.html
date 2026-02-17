@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gamer Alpha - Novo Tópico</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
+<body class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="index.html">VOLTAR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <div class="login-card" style="max-width: 600px; text-align: left;">
+            <h1>CRIAR NOVO TÓPICO</h1>
+            <p>Compartilhe seu conhecimento com a comunidade.</p>
+
+            <form action="post_process.php" method="POST">
+                <div class="input-group">
+                    <label>Título do Tópico</label>
+                    <input type="text" name="titulo_topico" placeholder="Ex: Melhores itens para iniciantes" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Categoria</label>
+                    <select name="categoria_topico" class="cyber-select" required>
+                        <option value="" disabled selected>Selecione uma categoria</option>
+                        <option value="fps">FPS</option>
+                        <option value="rpg">RPG</option>
+                        <option value="estrategia">ESTRATÉGIA</option>
+                        <option value="hardware">HARDWARE</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Conteúdo</label>
+                    <textarea name="conteudo_topico" rows="6" placeholder="Escreva aqui sua discussão..." class="cyber-textarea" required></textarea>
+                </div>
+
+                <button type="submit" class="btn-new-topic" style="width: 100%; margin-top: 20px;">PUBLICAR TÓPICO</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
