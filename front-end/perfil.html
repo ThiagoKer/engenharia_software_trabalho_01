@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gamer Alpha - Meu Perfil</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
+<body class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="criar_topico.html" style="color: #00f5ff; font-weight: bold;">+ NOVO TÓPICO</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <section class="perfil-header" style="background: rgba(20, 0, 40, 0.6); padding: 30px; border-radius: 15px; border: 1px solid #00f5ff; display: flex; align-items: center; gap: 30px;">
+            <div class="avatar-neon">
+                <img src="img/personagem.jpg" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; object-fit: cover;">
+            </div>
+
+            <div class="user-data">
+                <h1 style="margin: 0; font-size: 2.5rem;">USUARIO1</h1>
+                <p style="color: #ccc; margin: 5px 0;">Membro desde: Jan 2026</p>
+                <div class="tags-perfil" style="display: flex; gap: 10px; margin: 10px 0;">
+                    <span class="tag tag-fps">CONTRIBUIDOR</span>
+                    <span class="tag tag-rpg">TOP 10</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <a href="editar_perfil.html" class="btn-new-topic" style="text-decoration: none; background: #ff00ff; box-shadow: 0 0 10px #ff00ff; padding: 10px 20px;">
+                        EDITAR PERFIL
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <h2 style="color: #00f5ff; margin-top: 40px; text-shadow: 0 0 10px #00f5ff;">Meus Tópicos Criados</h2>
+        
+        <div class="feed">
+            <div class="post-card">
+                <div class="post-info">
+                    <span class="tag tag-fps">FPS</span>
+                    <h3>Dicas para Rankear no Valorant</h3>
+                    <p>Postado em: 26/01/2026</p>
+                </div>
+                <div class="post-stats">
+                    <a href="editar_topico.html" class="tag" style="background: #ff00ff; text-decoration: none; color: white; cursor: pointer;">Editar Post</a>
+                    <span>❤️ 12</span>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
