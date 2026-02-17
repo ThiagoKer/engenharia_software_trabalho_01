@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gamer Alpha - Editar Tópico</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
+<body class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="index.html">VOLTAR AO FEED</a>
+            <a href="perfil.html">MEU PERFIL</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <div class="perfil-card" style="max-width: 800px; margin: 0 auto;">
+            <h1 style="color: #00f5ff; text-shadow: 0 0 10px #00f5ff;">EDITAR TÓPICO</h1>
+            <p>Faça as alterações necessárias no seu post.</p>
+
+            <form action="/atualizar_post" method="POST">
+                <div class="input-group" style="margin-top: 20px;">
+                    <label>Título do Tópico</label>
+                    <input type="text" name="titulo_post" value="Dicas para Rankear no Valorant" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Categoria</label>
+                    <select name="categoria_post" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px;">
+                        <option value="fps" selected>FPS</option>
+                        <option value="rpg">RPG</option>
+                        <option value="moba">MOBA</option>
+                        <option value="hardware">Hardware</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Conteúdo</label>
+                    <textarea name="conteudo_post" rows="10" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px; resize: vertical;">
+Para subir de elo no Valorant, você precisa focar em três pilares: mira, posicionamento e economia...
+                    </textarea>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button type="submit" class="btn-new-topic" style="flex: 2; background: #ff00ff; box-shadow: 0 0 10px #ff00ff;">
+                        SALVAR ALTERAÇÕES
+                    </button>
+                    <a href="perfil.html" style="flex: 1; text-align: center; text-decoration: none; padding: 12px; color: #ccc; border: 1px solid #333; border-radius: 8px;">
+                        CANCELAR
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
