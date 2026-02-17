@@ -1,11 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Gamer Alpha - Exibir Tópico</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    
+<body class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="index.html">VOLTAR AO FEED</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <article class="post-completo">
+            <header class="post-header-view">
+                <span class="tag tag-fps">FPS</span>
+                <h1>Dicas para Rankear no Valorant</h1>
+                <p>Escrito por <strong>Usuario1:</strong> em 26/01/2026</p>
+            </header>
+            
+            <div class="post-conteudo">
+                <p>Aqui vai o texto longo que o usuário escreveu na tela de criar tópico. 
+                O foco é manter a leitura confortável mesmo no tema escuro.</p>
+            </div>
+        </article>
+
+        <section class="comentarios-section">
+            <h2>Comentários (2)</h2>
+            
+            <form action="comentario_process.php" method="POST" class="comentar-form">
+                <textarea name="conteudo_comentario" class="cyber-textarea" placeholder="Deixe sua resposta gamer..." required></textarea>
+                <button type="submit" class="btn-new-topic" style="margin-top: 10px;">COMENTAR</button>
+            </form>
+
+            <div class="comentario-card">
+                <p><strong>Usuario2:</strong> Ótimas dicas! Ajudou muito no meu treino de mira.</p>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
