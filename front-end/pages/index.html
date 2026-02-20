@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Alpha - Início</title>
+    <link rel="stylesheet" href="/front-end/css/style.css">
+</head>
+<body data-protected="true" class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="navegacao-categorias">
+            <a href="categorias.html" class="btn-neon-categorias">
+                VER TODAS AS CATEGORIAS
+            </a>
+         </div>
+        <div class="nav-links">
+            <a href="admin.html" class="btn-logout">ADIMINISTRADOR</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <header class="home-header">
+            <h1>Tópicos Recentes</h1>
+           <a href="criar_topico.html" style="text-decoration: none;">
+                <button class="btn-new-topic">+ Criar Tópico</button>
+            </a>
+        </header>
+
+        <section class="feed">
+            <div class="post-card">
+                <div class="post-info">
+                    <span class="tag tag-fps">FPS</span>
+                    <a href="exibir_topico.html" style="text-decoration: none; color: inherit;"></a>
+                    <h3>Dicas para Rankear no Valorant</h3>
+                    <p>Postado por: <strong>Usuario1 </strong></p>
+                </div>
+                <div class="post-stats">
+                    <span>❤️ 12</span>
+                    <span>💬 5</span>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-info">
+                    <span class="tag tag-rpg">RPG</span>
+                    <h3>Novo Mapa em Cyberpunk 2027!</h3>
+                    <p>Postado por: <strong>Usuario2</strong></p>
+                </div>
+                <div class="post-stats">
+                    <span>❤️ 45</span>
+                    <span>💬 12</span>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>

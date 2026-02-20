@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gamer Alfha</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+   <div class="login-card">
+        <h1>LOGIN</h1>
+        <p>Acesse o fórum de discussões</p>
+
+        <form id="loginForm" data-auth="login">
+            
+            <div class="input-group">
+                <label>Nome de Usuário</label>
+                <input id="username" type="text" name="username" placeholder="Seu nome de usuário" required>
+            </div>
+
+            <div class="input-group">
+                <label>Senha</label>
+                <input id="password" type="password" name="password" placeholder="Sua senha secreta" required>
+            </div>
+            <p id="loginError" style="display:none; color: red; margin: 8px 1 0;"></p>
+            <button type="submit" class="btn-action btn-login">ENTRAR</button>
+        </form>
+
+        <div class="footer-links">
+            <p>Novo por aqui? <a href="cadastro.html" class="link-destaque">Cadastre-se</a></p>
+        </div>
+    </div>
+    <script type="module" src="../js/main.js"></script> 
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Gamer Alpha</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="login-card" style="border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff;">
+    <h1>CRIAR CONTA</h1>
+    <p>Junte-se à nossa comunidade!</p>
+
+    <form id="registerForm" data-auth="register">
+
+      <div class="input-group">
+        <label>Nome de Usuário</label>
+        <input id="username" type="text" name="username" placeholder="Como quer ser chamado?" required>
+      </div>
+
+      <div class="input-group">
+        <label>E-mail</label>
+        <input id="email" type="email" name="email" placeholder="seuemail@exemplo.com" required>
+      </div>
+
+      <div class="input-group">
+        <label>Senha</label>
+        <input id="password" type="password" name="password" placeholder="Crie uma senha forte" required>
+      </div>
+
+      <p id="registerError" style="display:none; color: red; margin: 8px 0 0;"></p>
+
+      <button type="submit" class="btn-action btn-cadastro" style="background-color: #ff00ff;">
+        CADASTRAR
+      </button>
+    </form>
+
+    <div class="footer-links">
+      <p>Já tem conta? <a href="login.html" class="link-destaque" style="color: #ff00ff;">Fazer Login</a></p>
+    </div>
+  </div>
+
+  <script type="module" src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Alpha - Editar Perfil</title>
+    <link rel="stylesheet" href="/front-end/css/style.css">
+</head>
+<body data-protected="true" class="home-body">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="perfil.html">VOLTAR AO PERFIL</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <div class="perfil-card" style="max-width: 600px; margin: 0 auto;">
+            <h1 style="color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">EDITAR PERFIL</h1>
+            <p>Altere suas informações e salve para atualizar.</p>
+
+            <form action="update_perfil_process.php" method="POST" enctype="multipart/form-data">
+                
+                <div class="input-group" style="margin-top: 20px;">
+                    <label>Trocar Avatar (Imagem)</label>
+                    <input type="file" name="foto_perfil" accept="image/*" class="cyber-upload">
+                </div>
+
+                <div class="input-group">
+                    <label>Nome de Usuário</label>
+                    <input type="text" name="nome_usuario" value="Usuario1" required>
+                </div>
+
+                <div class="input-group">
+                    <label>E-mail</label>
+                    <input type="email" name="email_usuario" value="usuario1@email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Nova Senha (deixe vazio para manter a atual)</label>
+                    <input type="password" name="nova_senha" placeholder="********">
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button type="submit" class="btn-new-topic" style="flex: 2; background: #00f5ff; box-shadow: 0 0 10px #00f5ff;">
+                        SALVAR ALTERAÇÕES
+                    </button>
+                    <button type="button" class="btn-logout" style="flex: 1; background: #ff0055;">
+                        EXCLUIR CONTA
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>
