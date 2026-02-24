@@ -6,7 +6,7 @@
     <title>Gamer Alpha - Novo Tópico</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-body">
+<body class="home-body" data-page="new-topic">
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
@@ -19,7 +19,7 @@
             <h1>CRIAR NOVO TÓPICO</h1>
             <p>Compartilhe seu conhecimento com a comunidade.</p>
 
-            <form action="post_process.php" method="POST">
+            <form id="new-topic-form">
                 <div class="input-group">
                     <label>Título do Tópico</label>
                     <input type="text" name="titulo_topico" placeholder="Ex: Melhores itens para iniciantes" required>
@@ -27,12 +27,8 @@
 
                 <div class="input-group">
                     <label>Categoria</label>
-                    <select name="categoria_topico" class="cyber-select" required>
+                    <select name="categoria_topico" id="new-topic-category" class="cyber-select" required>
                         <option value="" disabled selected>Selecione uma categoria</option>
-                        <option value="fps">FPS</option>
-                        <option value="rpg">RPG</option>
-                        <option value="estrategia">ESTRATÉGIA</option>
-                        <option value="hardware">HARDWARE</option>
                     </select>
                 </div>
 
@@ -45,5 +41,6 @@
             </form>
         </div>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>

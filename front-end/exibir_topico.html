@@ -6,7 +6,7 @@
     <title>Gamer Alpha - Exibir Tópico</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-body">
+<body class="home-body" data-page="topic">
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
@@ -18,29 +18,30 @@
     <main class="container-home">
         <article class="post-completo">
             <header class="post-header-view">
-                <span class="tag tag-fps">FPS</span>
-                <h1>Dicas para Rankear no Valorant</h1>
-                <p>Escrito por <strong>Usuario1:</strong> em 26/01/2026</p>
+                <span class="tag tag-fps" id="topic-category">Categoria</span>
+                <h1 id="topic-title">Carregando...</h1>
+                <p id="topic-meta">Carregando...</p>
+                <div class="post-stats" style="margin-top: 10px;">
+                    <button id="like-button" class="tag" style="background: #ff00ff; border: none; cursor: pointer;">❤️ Curtir</button>
+                    <span id="like-count">0</span>
+                    <span id="comment-count">0</span>
+                </div>
             </header>
             
-            <div class="post-conteudo">
-                <p>Aqui vai o texto longo que o usuário escreveu na tela de criar tópico. 
-                O foco é manter a leitura confortável mesmo no tema escuro.</p>
-            </div>
+            <div class="post-conteudo" id="topic-content"></div>
         </article>
 
         <section class="comentarios-section">
-            <h2>Comentários (2)</h2>
+            <h2 id="comments-title">Comentários (0)</h2>
             
-            <form action="comentario_process.php" method="POST" class="comentar-form">
+            <form id="comment-form" class="comentar-form">
                 <textarea name="conteudo_comentario" class="cyber-textarea" placeholder="Deixe sua resposta gamer..." required></textarea>
                 <button type="submit" class="btn-new-topic" style="margin-top: 10px;">COMENTAR</button>
             </form>
 
-            <div class="comentario-card">
-                <p><strong>Usuario2:</strong> Ótimas dicas! Ajudou muito no meu treino de mira.</p>
-            </div>
+            <div id="comments-list"></div>
         </section>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>

@@ -6,12 +6,12 @@
     <title>Cadastro - Gamer Alpha</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="register">
     <div class="login-card" style="border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff;">
         <h1>CRIAR CONTA</h1>
         <p>Junte-se à nossa comunidade!</p>
 
-        <form action="cadastro_process.php" method="POST">
+        <form id="register-form">
             <div class="input-group">
                 <label>Nome de Usuário</label>
                 <input type="text" name="usuario_cadastro" placeholder="Como quer ser chamado?" required>
@@ -34,5 +34,6 @@
             <p>Já tem conta? <a href="login.html" class="link-destaque" style="color: #ff00ff;">Fazer Login</a></p>
         </div>
     </div> 
+    <script src="app.js"></script>
 </body>
 </html>

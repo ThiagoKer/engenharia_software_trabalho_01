@@ -6,7 +6,7 @@
     <title>Gamer Alpha - Meu Perfil</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-body">
+<body class="home-body" data-page="profile">
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
@@ -19,12 +19,12 @@
     <main class="container-home">
         <section class="perfil-header" style="background: rgba(20, 0, 40, 0.6); padding: 30px; border-radius: 15px; border: 1px solid #00f5ff; display: flex; align-items: center; gap: 30px;">
             <div class="avatar-neon">
-                <img src="css/img/personagem.jpg" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; object-fit: cover;">
+                <img id="profile-avatar" src="css/img/personagem.jpg" alt="Avatar" style="width: 120px; height: 120px; border-radius: 50%; border: 3px solid #ff00ff; box-shadow: 0 0 15px #ff00ff; object-fit: cover;">
             </div>
 
             <div class="user-data">
-                <h1 style="margin: 0; font-size: 2.5rem;">USUARIO1</h1>
-                <p style="color: #ccc; margin: 5px 0;">Membro desde: Jan 2026</p>
+                <h1 id="profile-name" style="margin: 0; font-size: 2.5rem;">USUARIO</h1>
+                <p id="profile-since" style="color: #ccc; margin: 5px 0;">Membro desde: --</p>
                 <div class="tags-perfil" style="display: flex; gap: 10px; margin: 10px 0;">
                     <span class="tag tag-fps">CONTRIBUIDOR</span>
                     <span class="tag tag-rpg">TOP 10</span>
@@ -40,19 +40,8 @@
 
         <h2 style="color: #00f5ff; margin-top: 40px; text-shadow: 0 0 10px #00f5ff;">Meus Tópicos Criados</h2>
         
-        <div class="feed">
-            <div class="post-card">
-                <div class="post-info">
-                    <span class="tag tag-fps">FPS</span>
-                    <h3>Dicas para Rankear no Valorant</h3>
-                    <p>Postado em: 26/01/2026</p>
-                </div>
-                <div class="post-stats">
-                    <a href="editar_topico.html" class="tag" style="background: #ff00ff; text-decoration: none; color: white; cursor: pointer;">Editar Post</a>
-                    <span>❤️ 12</span>
-                </div>
-            </div>
-        </div>
+        <div class="feed" id="profile-topics"></div>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>

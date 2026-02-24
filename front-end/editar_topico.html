@@ -6,7 +6,7 @@
     <title>Gamer Alpha - Editar Tópico</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-body">
+<body class="home-body" data-page="edit-topic">
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
@@ -20,27 +20,20 @@
             <h1 style="color: #00f5ff; text-shadow: 0 0 10px #00f5ff;">EDITAR TÓPICO</h1>
             <p>Faça as alterações necessárias no seu post.</p>
 
-            <form action="update_post_process.php" method="POST">
+            <form id="edit-topic-form">
                 <div class="input-group" style="margin-top: 20px;">
                     <label>Título do Tópico</label>
-                    <input type="text" name="titulo_post" value="Dicas para Rankear no Valorant" required>
+                    <input type="text" name="titulo_post" required>
                 </div>
 
                 <div class="input-group">
                     <label>Categoria</label>
-                    <select name="categoria_post" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px;">
-                        <option value="fps" selected>FPS</option>
-                        <option value="rpg">RPG</option>
-                        <option value="moba">MOBA</option>
-                        <option value="hardware">Hardware</option>
-                    </select>
+                    <select name="categoria_post" id="edit-topic-category" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px;"></select>
                 </div>
 
                 <div class="input-group">
                     <label>Conteúdo</label>
-                    <textarea name="conteudo_post" rows="10" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px; resize: vertical;">
-Para subir de elo no Valorant, você precisa focar em três pilares: mira, posicionamento e economia...
-                    </textarea>
+                    <textarea name="conteudo_post" rows="10" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px; resize: vertical;"></textarea>
                 </div>
 
                 <div style="display: flex; gap: 15px; margin-top: 25px;">
@@ -54,5 +47,6 @@ Para subir de elo no Valorant, você precisa focar em três pilares: mira, posic
             </form>
         </div>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>

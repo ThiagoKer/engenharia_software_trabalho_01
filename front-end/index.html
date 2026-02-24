@@ -6,7 +6,7 @@
     <title>Gamer Alpha - Início</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="home-body">
+<body class="home-body" data-page="home">
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="navegacao-categorias">
@@ -28,32 +28,8 @@
             </a>
         </header>
 
-        <section class="feed">
-            <div class="post-card">
-                <div class="post-info">
-                    <span class="tag tag-fps">FPS</span>
-                    <a href="exibir_topico.html" style="text-decoration: none; color: inherit;"></a>
-                    <h3>Dicas para Rankear no Valorant</h3>
-                    <p>Postado por: <strong>Usuario1 </strong></p>
-                </div>
-                <div class="post-stats">
-                    <span>❤️ 12</span>
-                    <span>💬 5</span>
-                </div>
-            </div>
-
-            <div class="post-card">
-                <div class="post-info">
-                    <span class="tag tag-rpg">RPG</span>
-                    <h3>Novo Mapa em Cyberpunk 2027!</h3>
-                    <p>Postado por: <strong>Usuario2</strong></p>
-                </div>
-                <div class="post-stats">
-                    <span>❤️ 45</span>
-                    <span>💬 12</span>
-                </div>
-            </div>
-        </section>
+        <section class="feed" id="recent-topics"></section>
     </main>
+    <script src="app.js"></script>
 </body>
 </html>
