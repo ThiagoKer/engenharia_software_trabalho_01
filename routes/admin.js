@@ -4,11 +4,9 @@ const { authMiddleware, adminMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Todas as rotas admin requerem autenticação e privilégios de admin
 router.use(authMiddleware);
 router.use(adminMiddleware);
 
-// POST /api/categories - Criar nova categoria (admin)
 router.post('/categories', async (req, res) => {
   try {
     const { name } = req.body;
@@ -17,7 +15,6 @@ router.post('/categories', async (req, res) => {
       return res.status(400).json({ message: 'Nome da categoria é obrigatório' });
     }
 
-    // Criar slug a partir do nome
     const slug = name
       .toLowerCase()
       .normalize('NFD')
@@ -25,7 +22,6 @@ router.post('/categories', async (req, res) => {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
 
-    // Verificar se já existe
     const existing = await query(
       'SELECT id FROM categories WHERE slug = $1',
       [slug]
@@ -50,7 +46,6 @@ router.post('/categories', async (req, res) => {
   }
 });
 
-// PUT /api/categories/:id - Editar categoria (admin)
 router.put('/categories/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -60,7 +55,6 @@ router.put('/categories/:id', async (req, res) => {
       return res.status(400).json({ message: 'Nome da categoria é obrigatório' });
     }
 
-    // Criar novo slug
     const slug = name
       .toLowerCase()
       .normalize('NFD')
@@ -80,12 +74,10 @@ router.put('/categories/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/categories/:id - Deletar categoria (admin)
 router.delete('/categories/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Verificar se existem tópicos usando esta categoria
     const topics = await query(
       'SELECT COUNT(*) as count FROM topics WHERE category_id = $1',
       [id]
@@ -106,7 +98,6 @@ router.delete('/categories/:id', async (req, res) => {
   }
 });
 
-// GET /api/admin/reports - Listar denúncias
 router.get('/reports', async (req, res) => {
   try {
     const result = await query(
@@ -134,13 +125,11 @@ router.get('/reports', async (req, res) => {
   }
 });
 
-// POST /api/admin/reports/:id/resolve - Resolver denúncia
 router.post('/reports/:id/resolve', async (req, res) => {
   try {
     const { id } = req.params;
     const { action } = req.body; // 'excluir' ou 'ignorar'
 
-    // Buscar o report
     const reportResult = await query(
       'SELECT topic_id FROM reports WHERE id = $1',
       [id]
@@ -151,12 +140,10 @@ router.post('/reports/:id/resolve', async (req, res) => {
     }
 
     if (action === 'excluir') {
-      // Deletar o tópico denunciado
       await query('DELETE FROM topics WHERE id = $1', [reportResult.rows[0].topic_id]);
       await query('DELETE FROM reports WHERE id = $1', [id]);
       res.json({ message: 'Tópico deletado com sucesso' });
     } else if (action === 'ignorar') {
-      // Marcar denúncia como resolvida
       await query(
         'UPDATE reports SET status = $1 WHERE id = $2',
         ['resolved', id]
@@ -171,7 +158,6 @@ router.post('/reports/:id/resolve', async (req, res) => {
   }
 });
 
-// GET /api/admin/stats - Estatísticas do sistema
 router.get('/stats', async (req, res) => {
   try {
     const usersCount = await query('SELECT COUNT(*) as count FROM users');

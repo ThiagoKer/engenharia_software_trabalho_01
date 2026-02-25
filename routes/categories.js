@@ -3,7 +3,6 @@ const { query } = require('../config/database');
 
 const router = express.Router();
 
-// GET /api/categories - Listar todas as categorias
 router.get('/', async (req, res) => {
   try {
     const result = await query(
@@ -17,7 +16,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/categories/:id - Obter uma categoria específica
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;

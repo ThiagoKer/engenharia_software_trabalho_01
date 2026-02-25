@@ -6,7 +6,6 @@ const { authMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// Configurar multer para upload de avatar
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/');
@@ -19,7 +18,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png|gif/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
@@ -33,7 +32,6 @@ const upload = multer({
   }
 });
 
-// GET /api/users/me/topics - Obter tópicos do usuário autenticado
 router.get('/me/topics', authMiddleware, async (req, res) => {
   try {
     const result = await query(
@@ -66,7 +64,6 @@ router.get('/me/topics', authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/users/me - Atualizar perfil do usuário
 router.post('/me', authMiddleware, upload.single('avatar'), async (req, res) => {
   try {
     const { username, email } = req.body;
@@ -75,7 +72,6 @@ router.post('/me', authMiddleware, upload.single('avatar'), async (req, res) => 
     let paramCount = 1;
 
     if (username && username !== req.user.username) {
-      // Verificar se username já existe
       const existing = await query(
         'SELECT id FROM users WHERE username = $1 AND id != $2',
         [username, req.user.id]
@@ -89,7 +85,6 @@ router.post('/me', authMiddleware, upload.single('avatar'), async (req, res) => 
     }
 
     if (email && email !== req.user.email) {
-      // Verificar se email já existe
       const existing = await query(
         'SELECT id FROM users WHERE email = $1 AND id != $2',
         [email, req.user.id]
@@ -102,7 +97,6 @@ router.post('/me', authMiddleware, upload.single('avatar'), async (req, res) => 
       paramCount++;
     }
 
-    // Se houver upload de avatar
     if (req.file) {
       const avatarUrl = `/uploads/${req.file.filename}`;
       updates.push(`avatar_url = $${paramCount}`);
@@ -125,7 +119,6 @@ router.post('/me', authMiddleware, upload.single('avatar'), async (req, res) => 
   }
 });
 
-// DELETE /api/users/me - Deletar conta do usuário
 router.delete('/me', authMiddleware, async (req, res) => {
   try {
     await query('DELETE FROM users WHERE id = $1', [req.user.id]);

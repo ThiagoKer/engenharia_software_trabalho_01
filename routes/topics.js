@@ -5,7 +5,6 @@ const { validarConteudo } = require('../middleware/profanityFilter');
 
 const router = express.Router();
 
-// GET /api/topics - Listar tópicos
 router.get('/', async (req, res) => {
   try {
     const { limit = 20, category } = req.query;
@@ -52,7 +51,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/topics/:id - Obter detalhes de um tópico
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -93,7 +91,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST /api/topics - Criar novo tópico
 router.post('/', authMiddleware, validarConteudo, async (req, res) => {
   try {
     const { titulo_topico, categoria_topico, conteudo_topico } = req.body;
@@ -102,7 +99,6 @@ router.post('/', authMiddleware, validarConteudo, async (req, res) => {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
-    // Buscar ID da categoria pelo slug
     const categoryResult = await query(
       'SELECT id FROM categories WHERE slug = $1',
       [categoria_topico]
@@ -114,7 +110,6 @@ router.post('/', authMiddleware, validarConteudo, async (req, res) => {
 
     const categoryId = categoryResult.rows[0].id;
 
-    // Criar tópico
     const result = await query(
       'INSERT INTO topics (title, content, user_id, category_id) VALUES ($1, $2, $3, $4) RETURNING id',
       [titulo_topico, conteudo_topico, req.user.id, categoryId]
@@ -130,13 +125,11 @@ router.post('/', authMiddleware, validarConteudo, async (req, res) => {
   }
 });
 
-// PUT /api/topics/:id - Editar tópico
 router.put('/:id', authMiddleware, validarConteudo, async (req, res) => {
   try {
     const { id } = req.params;
     const { titulo_post, categoria_post, conteudo_post } = req.body;
 
-    // Verificar se o tópico pertence ao usuário
     const topicResult = await query(
       'SELECT user_id FROM topics WHERE id = $1',
       [id]
@@ -150,7 +143,6 @@ router.put('/:id', authMiddleware, validarConteudo, async (req, res) => {
       return res.status(403).json({ message: 'Você não tem permissão para editar este tópico' });
     }
 
-    // Buscar ID da categoria
     const categoryResult = await query(
       'SELECT id FROM categories WHERE slug = $1',
       [categoria_post]
@@ -162,7 +154,6 @@ router.put('/:id', authMiddleware, validarConteudo, async (req, res) => {
 
     const categoryId = categoryResult.rows[0].id;
 
-    // Atualizar tópico
     await query(
       'UPDATE topics SET title = $1, content = $2, category_id = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4',
       [titulo_post, conteudo_post, categoryId, id]
@@ -175,12 +166,10 @@ router.put('/:id', authMiddleware, validarConteudo, async (req, res) => {
   }
 });
 
-// DELETE /api/topics/:id - Deletar tópico
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Verificar se o tópico pertence ao usuário ou se é admin
     const topicResult = await query(
       'SELECT user_id FROM topics WHERE id = $1',
       [id]
@@ -203,26 +192,22 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// POST /api/topics/:id/like - Curtir/descurtir tópico
 router.post('/:id/like', authMiddleware, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Verificar se já curtiu
     const existingLike = await query(
       'SELECT id FROM likes WHERE user_id = $1 AND topic_id = $2',
       [req.user.id, id]
     );
 
     if (existingLike.rows.length > 0) {
-      // Remover curtida
       await query(
         'DELETE FROM likes WHERE user_id = $1 AND topic_id = $2',
         [req.user.id, id]
       );
       res.json({ message: 'Curtida removida' });
     } else {
-      // Adicionar curtida
       await query(
         'INSERT INTO likes (user_id, topic_id) VALUES ($1, $2)',
         [req.user.id, id]
@@ -235,7 +220,6 @@ router.post('/:id/like', authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/topics/:id/comments - Listar comentários de um tópico
 router.get('/:id/comments', async (req, res) => {
   try {
     const { id } = req.params;
@@ -262,7 +246,6 @@ router.get('/:id/comments', async (req, res) => {
   }
 });
 
-// POST /api/topics/:id/comments - Adicionar comentário
 router.post('/:id/comments', authMiddleware, validarConteudo, async (req, res) => {
   try {
     const { id } = req.params;

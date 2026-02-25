@@ -6,17 +6,14 @@ const { authMiddleware } = require('../middleware/auth');
 
 const router = express.Router();
 
-// POST /api/auth/register - Criar nova conta
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validar campos
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'Todos os campos são obrigatórios' });
     }
 
-    // Verificar se usuário já existe
     const existingUser = await query(
       'SELECT id FROM users WHERE username = $1 OR email = $2',
       [username, email]
@@ -26,10 +23,8 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Usuário ou email já cadastrado' });
     }
 
-    // Hash da senha
     const passwordHash = await bcrypt.hash(password, 10);
 
-    // Inserir novo usuário
     const result = await query(
       'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING id, username, email, created_at',
       [username, email, passwordHash]
@@ -37,14 +32,12 @@ router.post('/register', async (req, res) => {
 
     const user = result.rows[0];
 
-    // Criar token JWT
     const token = jwt.sign(
       { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    // Enviar token como cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -66,17 +59,14 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/login - Fazer login
 router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Validar campos
     if (!username || !password) {
       return res.status(400).json({ message: 'Usuário e senha são obrigatórios' });
     }
 
-    // Buscar usuário
     const result = await query(
       'SELECT id, username, email, password_hash, avatar_url, is_admin FROM users WHERE username = $1',
       [username]
@@ -88,21 +78,18 @@ router.post('/login', async (req, res) => {
 
     const user = result.rows[0];
 
-    // Verificar senha
     const isValidPassword = await bcrypt.compare(password, user.password_hash);
 
     if (!isValidPassword) {
       return res.status(401).json({ message: 'Usuário ou senha incorretos' });
     }
 
-    // Criar token JWT
     const token = jwt.sign(
       { userId: user.id, username: user.username },
       process.env.JWT_SECRET,
       { expiresIn: '7d' }
     );
 
-    // Enviar token como cookie
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -126,13 +113,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// POST /api/auth/logout - Fazer logout
 router.post('/logout', (req, res) => {
   res.clearCookie('token');
   res.json({ message: 'Logout realizado com sucesso' });
 });
 
-// GET /api/auth/me - Obter dados do usuário autenticado
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     res.json({
