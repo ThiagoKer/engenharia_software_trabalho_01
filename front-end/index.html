@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Alpha - Início</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-body" data-page="home">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="navegacao-categorias">
+            <a href="categorias.html" class="btn-neon-categorias">
+                VER TODAS AS CATEGORIAS
+            </a>
+         </div>
+        <div class="nav-links">
+            <a href="admin.html" class="btn-logout">ADIMINISTRADOR</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <header class="home-header">
+            <h1>Tópicos Recentes</h1>
+           <a href="criar_topico.html" style="text-decoration: none;">
+                <button class="btn-new-topic">+ Criar Tópico</button>
+            </a>
+        </header>
+
+        <section class="feed" id="recent-topics"></section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>

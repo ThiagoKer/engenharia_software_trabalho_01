@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gamer Alpha - Exibir Tópico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-body" data-page="topic">
+    <nav class="navbar">
+        <div class="logo">GAMER ALPHA</div>
+        <div class="nav-links">
+            <a href="index.html">VOLTAR AO FEED</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
+        </div>
+    </nav>
+
+    <main class="container-home">
+        <article class="post-completo">
+            <header class="post-header-view">
+                <span class="tag tag-fps" id="topic-category">Categoria</span>
+                <h1 id="topic-title">Carregando...</h1>
+                <p id="topic-meta">Carregando...</p>
+                <div class="post-stats" style="margin-top: 10px;">
+                    <button id="like-button" class="tag" style="background: #ff00ff; border: none; cursor: pointer;">❤️ Curtir</button>
+                    <span id="like-count">0</span>
+                    <span id="comment-count">0</span>
+                </div>
+            </header>
+            
+            <div class="post-conteudo" id="topic-content"></div>
+        </article>
+
+        <section class="comentarios-section">
+            <h2 id="comments-title">Comentários (0)</h2>
+            
+            <form id="comment-form" class="comentar-form">
+                <textarea name="conteudo_comentario" class="cyber-textarea" placeholder="Deixe sua resposta gamer..." required></textarea>
+                <button type="submit" class="btn-new-topic" style="margin-top: 10px;">COMENTAR</button>
+            </form>
+
+            <div id="comments-list"></div>
+        </section>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
