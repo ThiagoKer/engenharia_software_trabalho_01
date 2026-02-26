@@ -10,8 +10,9 @@
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
-            <a href="index.html">VOLTAR AO FEED</a>
-            <a href="perfil.html">MEU PERFIL</a>
+            <a href="index.html">HOME</a>
+            <a href="perfil.html">PERFIL</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
         </div>
     </nav>
 
@@ -20,15 +21,15 @@
             <h1 style="color: #00f5ff; text-shadow: 0 0 10px #00f5ff;">EDITAR TÓPICO</h1>
             <p>Faça as alterações necessárias no seu post.</p>
 
-            <form action="update_post_process.php" method="POST">
+            <form id="formEditarTopico">
                 <div class="input-group" style="margin-top: 20px;">
                     <label>Título do Tópico</label>
-                    <input type="text" name="titulo_post" value="Dicas para Rankear no Valorant" required>
+                    <input type="text" id="titulo_post" name="titulo_post" value="Dicas para Rankear no Valorant" required>
                 </div>
 
                 <div class="input-group">
                     <label>Categoria</label>
-                    <select name="categoria_post" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px;">
+                    <select id="categoria_post" name="categoria_post" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px;">
                         <option value="fps" selected>FPS</option>
                         <option value="rpg">RPG</option>
                         <option value="moba">MOBA</option>
@@ -38,7 +39,7 @@
 
                 <div class="input-group">
                     <label>Conteúdo</label>
-                    <textarea name="conteudo_post" rows="10" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px; resize: vertical;">
+                    <textarea id="conteudo_post" name="conteudo_post" rows="10" style="padding: 12px; background: rgba(13, 2, 33, 0.8); border: 1px solid #ff00ff; color: white; border-radius: 8px; resize: vertical;">
 Para subir de elo no Valorant, você precisa focar em três pilares: mira, posicionamento e economia...
                     </textarea>
                 </div>
@@ -54,5 +55,46 @@ Para subir de elo no Valorant, você precisa focar em três pilares: mira, posic
             </form>
         </div>
     </main>
+
+    <script>
+        // Obter ID do tópico da URL (ex: editar_topico.html?id=1)
+        const urlParams = new URLSearchParams(window.location.search);
+        const topicId = urlParams.get('id') || '1';
+
+        document.getElementById('formEditarTopico').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const titulo = document.getElementById('titulo_post').value;
+            const categoria = document.getElementById('categoria_post').value;
+            const conteudo = document.getElementById('conteudo_post').value;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/topics/${topicId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        titulo_post: titulo,
+                        categoria_post: categoria,
+                        conteudo_post: conteudo
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Tópico atualizado com sucesso!');
+                    window.location.href = 'perfil.html';
+                } else {
+                    alert(data.message || 'Erro ao atualizar tópico');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+    </script>
 </body>
 </html>

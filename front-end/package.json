@@ -1,0 +1,12 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "description": "Front-end Gamer Alpha - Fórum de discussão sobre jogos",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server -p 3000"
+  },
+  "keywords": ["forum", "games", "html", "css"],
+  "author": "",
+  "license": "ISC"
+}

@@ -11,16 +11,16 @@
         <h1>LOGIN</h1>
         <p>Acesse o fórum de discussões</p>
 
-        <form action="login_process.php" method="POST">
+        <form id="formLogin">
             
             <div class="input-group">
                 <label>Nome de Usuário</label>
-                <input type="text" name="usuario_login" placeholder="Seu nome de usuário" required>
+                <input type="text" id="usuario_login" name="usuario_login" placeholder="Seu nome de usuário" required>
             </div>
 
             <div class="input-group">
                 <label>Senha</label>
-                <input type="password" name="senha_login" placeholder="Sua senha secreta" required>
+                <input type="password" id="senha_login" name="senha_login" placeholder="Sua senha secreta" required>
             </div>
 
             <button type="submit" class="btn-action btn-login">ENTRAR</button>
@@ -29,6 +29,38 @@
         <div class="footer-links">
             <p>Novo por aqui? <a href="cadastro.html" class="link-destaque">Cadastre-se</a></p>
         </div>
-    </div> 
+    </div>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('usuario_login').value;
+            const password = document.getElementById('senha_login').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Login realizado com sucesso!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.message || 'Erro ao fazer login');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+    </script> 
 </body>
 </html>

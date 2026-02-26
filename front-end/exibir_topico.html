@@ -10,37 +10,292 @@
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
-            <a href="index.html">VOLTAR AO FEED</a>
+            <a href="index.html">HOME</a>
+            <a href="perfil.html">PERFIL</a>
             <a href="login.html" class="btn-logout">SAIR</a>
         </div>
     </nav>
 
     <main class="container-home">
-        <article class="post-completo">
-            <header class="post-header-view">
-                <span class="tag tag-fps">FPS</span>
-                <h1>Dicas para Rankear no Valorant</h1>
-                <p>Escrito por <strong>Usuario1:</strong> em 26/01/2026</p>
-            </header>
-            
-            <div class="post-conteudo">
-                <p>Aqui vai o texto longo que o usuário escreveu na tela de criar tópico. 
-                O foco é manter a leitura confortável mesmo no tema escuro.</p>
-            </div>
+        <article class="post-completo" id="topicContent">
+            <p style="color: #ccc; text-align: center;">Carregando tópico...</p>
         </article>
 
         <section class="comentarios-section">
-            <h2>Comentários (2)</h2>
+            <h2 id="commentsTitle">Comentários (0)</h2>
             
-            <form action="comentario_process.php" method="POST" class="comentar-form">
-                <textarea name="conteudo_comentario" class="cyber-textarea" placeholder="Deixe sua resposta gamer..." required></textarea>
-                <button type="submit" class="btn-new-topic" style="margin-top: 10px;">COMENTAR</button>
+            <form id="formComentar" class="comentar-form">
+                <textarea id="conteudo_comentario" name="conteudo_comentario" class="cyber-textarea" placeholder="Deixe sua resposta gamer..." required></textarea>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button type="submit" class="btn-new-topic" style="flex: 1;">COMENTAR</button>
+                    <button type="button" id="btnDenunciar" class="btn-logout" style="background: #ff6600; flex: 1;">DENUNCIAR TÓPICO</button>
+                </div>
             </form>
 
-            <div class="comentario-card">
-                <p><strong>Usuario2:</strong> Ótimas dicas! Ajudou muito no meu treino de mira.</p>
+            <div id="commentsContainer">
+                <!-- Comentários serão carregados aqui -->
             </div>
         </section>
     </main>
+
+    <!-- Modal de Denúncia -->
+    <div id="modalDenuncia" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: rgba(13, 2, 33, 0.95); border: 2px solid #ff6600; border-radius: 15px; padding: 30px; max-width: 500px; width: 90%;">
+            <h2 style="color: #ff6600; margin-bottom: 20px;">DENUNCIAR TÓPICO</h2>
+            <p style="color: #ccc; margin-bottom: 15px;">Descreva o motivo da denúncia:</p>
+            
+            <textarea id="textoDenuncia" placeholder="Ex: Conteúdo ofensivo, spam, etc..." style="width: 100%; padding: 10px; background: rgba(255, 102, 0, 0.1); border: 1px solid #ff6600; color: white; border-radius: 8px; resize: vertical; height: 150px; font-family: Arial; margin-bottom: 20px;"></textarea>
+            
+            <div style="display: flex; gap: 10px;">
+                <button id="btnConfirmarDenuncia" class="btn-logout" style="background: #ff6600; flex: 1; padding: 10px;">DENUNCIAR</button>
+                <button id="btnCancelarDenuncia" class="btn-logout" style="background: #333; flex: 1; padding: 10px;">CANCELAR</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const topicId = urlParams.get('id') || urlParams.get('category');
+        
+        // Se tiver category em vez de id, carregar tópicos da categoria
+        if (urlParams.has('category') && !urlParams.has('id')) {
+            loadTopicsByCategory(urlParams.get('category'));
+        } else if (topicId) {
+            loadTopic(topicId);
+            loadComments(topicId);
+            setupReportButton();
+        } else {
+            document.getElementById('topicContent').innerHTML = '<p style="color: #ff0055;">Tópico não encontrado.</p>';
+        }
+
+        // Carregar tópico específico
+        async function loadTopic(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/topics/${id}`);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message);
+                }
+                
+                const topic = data.topic;
+                const categoryColor = getCategoryColor(topic.slug);
+                
+                document.title = `${topic.title} - Gamer Alpha`;
+                document.getElementById('topicContent').innerHTML = `
+                    <header class="post-header-view">
+                        <span class="tag" style="background: ${categoryColor};">${topic.category}</span>
+                        <h1>${escapeHtml(topic.title)}</h1>
+                        <p>Escrito por <strong>${escapeHtml(topic.username)}</strong> em ${formatDate(topic.created_at)}</p>
+                        <div class="post-stats" style="margin-top: 10px;">
+                            <span>❤️ ${topic.likes_count}</span>
+                            <span>💬 ${topic.comments_count}</span>
+                        </div>
+                    </header>
+                    
+                    <div class="post-conteudo">
+                        <p style="white-space: pre-wrap;">${escapeHtml(topic.content)}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erro ao carregar tópico:', error);
+                document.getElementById('topicContent').innerHTML = `<p style="color: #ff0055;">Erro ao carregar tópico: ${error.message}</p>`;
+            }
+        }
+
+        // Carregar tópicos por categoria
+        async function loadTopicsByCategory(categorySlug) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/topics?category=${categorySlug}&limit=50`);
+                const data = await response.json();
+                
+                document.title = `Categoria - Gamer Alpha`;
+                
+                const mainContainer = document.querySelector('.container-home');
+                mainContainer.innerHTML = `
+                    <header class="home-header">
+                        <h1>Tópicos - ${categorySlug.toUpperCase()}</h1>
+                        <a href="criar_topico.html" style="text-decoration: none;">
+                            <button class="btn-new-topic">+ Criar Tópico</button>
+                        </a>
+                    </header>
+                    <section class="feed" id="categoryFeed"></section>
+                `;
+                
+                const feed = document.getElementById('categoryFeed');
+                
+                if (!data.topics || data.topics.length === 0) {
+                    feed.innerHTML = '<p style="color: #ccc; text-align: center;">Nenhum tópico nesta categoria ainda.</p>';
+                    return;
+                }
+                
+                data.topics.forEach(topic => {
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    card.style.cursor = 'pointer';
+                    
+                    const categoryColor = getCategoryColor(topic.slug);
+                    
+                    card.innerHTML = `
+                        <div class="post-info">
+                            <span class="tag" style="background: ${categoryColor};">${topic.category}</span>
+                            <h3>${escapeHtml(topic.title)}</h3>
+                            <p>Postado por: <strong>${escapeHtml(topic.username)}</strong> em ${formatDate(topic.created_at)}</p>
+                        </div>
+                        <div class="post-stats">
+                            <span>❤️ ${topic.likes_count}</span>
+                            <span>💬 ${topic.comments_count}</span>
+                        </div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        window.location.href = `exibir_topico.html?id=${topic.id}`;
+                    });
+                    
+                    feed.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar tópicos da categoria:', error);
+            }
+        }
+
+        // Carregar comentários
+        async function loadComments(id) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/topics/${id}/comments`);
+                const data = await response.json();
+                
+                const commentsContainer = document.getElementById('commentsContainer');
+                const commentsTitle = document.getElementById('commentsTitle');
+                
+                commentsTitle.textContent = `Comentários (${data.comments.length})`;
+                
+                if (data.comments.length === 0) {
+                    commentsContainer.innerHTML = '<p style="color: #ccc; text-align: center; margin-top: 20px;">Nenhum comentário ainda. Seja o primeiro!</p>';
+                    return;
+                }
+                
+                commentsContainer.innerHTML = '';
+                data.comments.forEach(comment => {
+                    const commentCard = document.createElement('div');
+                    commentCard.className = 'comentario-card';
+                    commentCard.innerHTML = `
+                        <p><strong>${escapeHtml(comment.username)}:</strong> ${escapeHtml(comment.content)}</p>
+                        <small style="color: #888;">${formatDate(comment.created_at)}</small>
+                    `;
+                    commentsContainer.appendChild(commentCard);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar comentários:', error);
+            }
+        }
+
+        // Adicionar comentário
+        document.getElementById('formComentar').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const conteudo = document.getElementById('conteudo_comentario').value;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/topics/${topicId}/comments`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ conteudo_comentario: conteudo })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Comentário adicionado com sucesso!');
+                    document.getElementById('conteudo_comentario').value = '';
+                    loadComments(topicId);
+                } else {
+                    alert(data.message || 'Erro ao adicionar comentário. Você precisa estar logado!');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+
+        function getCategoryColor(slug) {
+            const colors = {
+                'fps': '#00f5ff',
+                'rpg': '#ff00ff',
+                'moba': '#7000ff',
+                'estrategia': '#ffcc00',
+                'esports': '#00ff88',
+                'hardware': '#ff6600'
+            };
+            return colors[slug] || '#00f5ff';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Setup do botão de denúncia
+        function setupReportButton() {
+            const btnDenunciar = document.getElementById('btnDenunciar');
+            const modal = document.getElementById('modalDenuncia');
+            const btnConfirmar = document.getElementById('btnConfirmarDenuncia');
+            const btnCancelar = document.getElementById('btnCancelarDenuncia');
+            const textoDenuncia = document.getElementById('textoDenuncia');
+
+            btnDenunciar.addEventListener('click', () => {
+                modal.style.display = 'flex';
+            });
+
+            btnCancelar.addEventListener('click', () => {
+                modal.style.display = 'none';
+                textoDenuncia.value = '';
+            });
+
+            btnConfirmar.addEventListener('click', async () => {
+                const reason = textoDenuncia.value.trim();
+                
+                if (!reason) {
+                    alert('Por favor, descreva o motivo da denúncia');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`http://localhost:3000/api/topics/${topicId}/report`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        credentials: 'include',
+                        body: JSON.stringify({ reason })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Tópico denunciado com sucesso! Os administradores analisarão sua denúncia.');
+                        modal.style.display = 'none';
+                        textoDenuncia.value = '';
+                        btnDenunciar.disabled = true;
+                        btnDenunciar.style.opacity = '0.5';
+                    } else {
+                        alert(data.message || 'Erro ao denunciar tópico');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao conectar com o servidor');
+                }
+            });
+        }
+    </script>
 </body>
 </html>

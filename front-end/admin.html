@@ -10,7 +10,8 @@
     <nav class="navbar">
         <div class="logo">ADMIN CONTROL</div>
         <div class="nav-links">
-            <a href="index.html">VOLTAR AO INICIO</a>
+            <a href="index.html">HOME</a>
+            <a href="perfil.html">PERFIL</a>
             <a href="login.html" class="btn-logout">SAIR</a>
         </div>
     </nav>
@@ -21,14 +22,14 @@
         <section class="perfil-card" style="margin-bottom: 30px; background: rgba(0,0,0,0.7); padding: 25px; border-radius: 15px; border: 1px solid #00f5ff;">
             <h2 style="color: #00f5ff;">Gerenciar Categorias</h2>
             
-            <form action="admin_process.php" method="POST" style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <input type="text" name="nome_nova_categoria" placeholder="Nova Categoria..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #333; background: #111; color: white;" required>
+            <form id="formNovaCategoria" style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <input type="text" id="nome_nova_categoria" name="nome_nova_categoria" placeholder="Nova Categoria..." style="flex: 1; padding: 10px; border-radius: 5px; border: 1px solid #333; background: #111; color: white;" required>
                 <button type="submit" class="btn-new-topic" style="background: #00f5ff; box-shadow: 0 0 10px #00f5ff; border: none; cursor: pointer; padding: 10px 20px;">
                     ADICIONAR
                 </button>
             </form>
 
-            <table style="width: 100%; border-collapse: collapse; color: white;">
+            <table style="width: 100%; border-collapse: collapse; color: white;" id="categoriasTable">
                 <thead>
                     <tr style="border-bottom: 1px solid #333; text-align: left;">
                         <th style="padding: 10px;">Nome</th>
@@ -36,34 +37,213 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr style="border-bottom: 1px solid #222;">
-                        <td style="padding: 10px;">FPS</td>
-                        <td>
-                            <button class="tag" style="background: #ff00ff; border:none; cursor:pointer; padding: 5px 10px;">Editar</button>
-                            <button class="tag" style="background: #ff0055; border:none; cursor:pointer; padding: 5px 10px;">Excluir</button>
-                        </td>
-                    </tr>
+                    <tr><td colspan="2" style="padding: 20px; text-align: center; color: #ccc;">Carregando categorias...</td></tr>
                 </tbody>
             </table>
         </section>
 
         <section class="perfil-card" style="background: rgba(0,0,0,0.7); padding: 25px; border-radius: 15px; border: 1px solid #ff0055;">
-            <h2 style="color: #ff0055;">Denúncias e Tópicos</h2>
+            <h2 style="color: #ff0055;">Denúncias Pendentes</h2>
             
-            <div class="post-card" style="background: rgba(255, 0, 0, 0.1); border-left: 5px solid #ff0055; margin-top: 15px; padding: 15px;">
-                <div class="post-info">
-                    <h3 style="color: white;">[DENÚNCIA] Linguagem Imprópria no Post #402</h3>
-                    <p style="color: #ccc;">Autor denunciado: <strong>TrollGamer99</strong></p>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 15px;">
-                    <form action="admin_actions.php" method="POST">
-                        <input type="hidden" name="id_post_denuncia" value="402">
-                        <button type="submit" name="acao" value="excluir" class="btn-logout" style="background: #ff0055; padding: 8px 15px; border: none; cursor: pointer;">EXCLUIR</button>
-                        <button type="submit" name="acao" value="ignorar" class="tag" style="background: #333; padding: 8px 15px; border: none; cursor: pointer; color: white;">IGNORAR</button>
-                    </form>
-                </div>
+            <div id="denunciasContainer" style="margin-top: 15px;">
+                <p style="color: #ccc; text-align: center;">Carregando denúncias...</p>
             </div>
         </section>
     </main>
+
+    <script>
+        // Carregar categorias
+        async function loadCategorias() {
+            try {
+                const response = await fetch('http://localhost:3000/api/categories');
+                const data = await response.json();
+                const tbody = document.querySelector('#categoriasTable tbody');
+                
+                if (!data.categories || data.categories.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="2" style="padding: 20px; text-align: center; color: #ccc;">Nenhuma categoria ainda.</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                data.categories.forEach(category => {
+                    const row = document.createElement('tr');
+                    row.style.cssText = 'border-bottom: 1px solid #222;';
+                    row.innerHTML = `
+                        <td style="padding: 10px;">${escapeHtml(category.name)}</td>
+                        <td>
+                            <button onclick="editarCategoria(${category.id}, '${escapeHtml(category.name)}')" class="tag" style="background: #ff00ff; border:none; cursor:pointer; padding: 5px 10px;">Editar</button>
+                            <button onclick="deletarCategoria(${category.id})" class="tag" style="background: #ff0055; border:none; cursor:pointer; padding: 5px 10px;">Excluir</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar categorias:', error);
+            }
+        }
+
+        // Editar categoria
+        async function editarCategoria(id, nome) {
+            const novoNome = prompt('Novo nome da categoria:', nome);
+            if (!novoNome || novoNome === nome) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/categories/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ name: novoNome })
+                });
+
+                if (response.ok) {
+                    alert('Categoria atualizada!');
+                    loadCategorias();
+                } else {
+                    alert('Erro ao atualizar categoria');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        // Deletar categoria
+        async function deletarCategoria(id) {
+            if (!confirm('Tem certeza que deseja deletar esta categoria?')) return;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/categories/${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+
+                if (response.ok) {
+                    alert('Categoria deletada!');
+                    loadCategorias();
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Erro ao deletar categoria');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        // Carregar denúncias
+        async function loadDenuncias() {
+            try {
+                const response = await fetch('http://localhost:3000/api/admin/reports', {
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                const container = document.getElementById('denunciasContainer');
+                
+                if (!response.ok) {
+                    container.innerHTML = `<p style="color: #ff0055;">Erro: ${data.message}</p>`;
+                    return;
+                }
+
+                if (!data.reports || data.reports.length === 0) {
+                    container.innerHTML = '<p style="color: #ccc; text-align: center;">Nenhuma denúncia pendente.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                data.reports.forEach(report => {
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    card.style.cssText = 'background: rgba(255, 0, 0, 0.1); border-left: 5px solid #ff0055; margin-top: 15px; padding: 15px;';
+                    card.innerHTML = `
+                        <div class="post-info">
+                            <h3 style="color: white;">[DENÚNCIA #${report.id}] ${escapeHtml(report.title)}</h3>
+                            <p style="color: #ccc;">Motivo: <strong>${escapeHtml(report.reason)}</strong></p>
+                            <p style="color: #888;">Denunciado por: <strong>${escapeHtml(report.reporter)}</strong></p>
+                            <p style="color: #888;">Data: ${formatDate(report.created_at)}</p>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button onclick="resolverDenuncia(${report.id}, 'excluir')" class="btn-logout" style="background: #ff0055; padding: 8px 15px; border: none; cursor: pointer; flex: 1;">EXCLUIR TÓPICO</button>
+                            <button onclick="resolverDenuncia(${report.id}, 'ignorar')" class="tag" style="background: #333; padding: 8px 15px; border: none; cursor: pointer; color: white; flex: 1;">IGNORAR</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar denúncias:', error);
+                document.getElementById('denunciasContainer').innerHTML = '<p style="color: #ff0055;">Erro ao carregar denúncias. Verifique se está logado como admin.</p>';
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        // Adicionar nova categoria
+        document.getElementById('formNovaCategoria').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('nome_nova_categoria').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/admin/categories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ name })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Categoria criada com sucesso!');
+                    document.getElementById('nome_nova_categoria').value = '';
+                    loadCategorias();
+                } else {
+                    alert(data.message || 'Erro ao criar categoria');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+
+        // Resolver denúncia
+        async function resolverDenuncia(reportId, action) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/admin/reports/${reportId}/resolve`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ action })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Denúncia processada com sucesso!');
+                    loadDenuncias();
+                } else {
+                    alert(data.message || 'Erro ao processar denúncia');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        }
+
+        // Carregar ao abrir página
+        loadCategorias();
+        loadDenuncias();
+    </script>
 </body>
 </html>

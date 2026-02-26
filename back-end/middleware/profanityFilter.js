@@ -13,9 +13,9 @@ const palavroes = [
   'gay', 'sapatao', 'traveco', 'viadão', 'viadao'
 ];
 
-  // Verifica se um texto contém palavras proibidas
-  // @param {string} texto - Texto a ser verificado
-  // @returns {object} Objeto com contemPalavrao e lista de palavras encontradas
+// Verifica se um texto contém palavras proibidas
+// @param {string} texto - Texto a ser verificado
+// @returns {object} Objeto com contemPalavrao e lista de palavras encontradas
 
 function verificarPalavroes(texto) {
   if (!texto) {
@@ -37,6 +37,7 @@ function verificarPalavroes(texto) {
     palavrasEncontradas: palavrasEncontradas
   };
 }
+
 // Middleware que valida conteúdo do usuário contra palavras proibidas
 // Verifica múltiplos campos de conteúdo em uma única requisição
 // Se encontrar conteúdo proibido, retorna erro 400 sem chamar next()

@@ -325,4 +325,51 @@ router.post('/:id/comments', authMiddleware, validarConteudo, async (req, res) =
   }
 });
 
+
+// POST /topics/:id/report
+// Denunciar um tópico por conteúdo inapropriado
+// Requer autenticação
+
+router.post('/:id/report', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    if (!reason) {
+      return res.status(400).json({ message: 'Motivo da denúncia é obrigatório' });
+    }
+
+    // Verificar se o tópico existe
+    const topicResult = await query(
+      'SELECT id FROM topics WHERE id = $1',
+      [id]
+    );
+
+    if (topicResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Tópico não encontrado' });
+    }
+
+    // Verificar se o usuário já denunciou este tópico
+    const existingReport = await query(
+      'SELECT id FROM reports WHERE topic_id = $1 AND reporter_user_id = $2',
+      [id, req.user.id]
+    );
+
+    if (existingReport.rows.length > 0) {
+      return res.status(400).json({ message: 'Você já denunciou este tópico' });
+    }
+
+    // Criar a denúncia
+    await query(
+      'INSERT INTO reports (topic_id, reporter_user_id, reason, status) VALUES ($1, $2, $3, $4)',
+      [id, req.user.id, reason, 'pending']
+    );
+
+    res.status(201).json({ message: 'Tópico denunciado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao denunciar tópico:', error);
+    res.status(500).json({ message: 'Erro ao denunciar tópico' });
+  }
+});
+
 module.exports = router;

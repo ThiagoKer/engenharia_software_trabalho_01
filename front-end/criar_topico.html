@@ -10,7 +10,9 @@
     <nav class="navbar">
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
-            <a href="index.html">VOLTAR</a>
+            <a href="index.html">HOME</a>
+            <a href="perfil.html">PERFIL</a>
+            <a href="login.html" class="btn-logout">SAIR</a>
         </div>
     </nav>
 
@@ -19,15 +21,15 @@
             <h1>CRIAR NOVO TÓPICO</h1>
             <p>Compartilhe seu conhecimento com a comunidade.</p>
 
-            <form action="post_process.php" method="POST">
+            <form id="formCriarTopico">
                 <div class="input-group">
                     <label>Título do Tópico</label>
-                    <input type="text" name="titulo_topico" placeholder="Ex: Melhores itens para iniciantes" required>
+                    <input type="text" id="titulo_topico" name="titulo_topico" placeholder="Ex: Melhores itens para iniciantes" required>
                 </div>
 
                 <div class="input-group">
                     <label>Categoria</label>
-                    <select name="categoria_topico" class="cyber-select" required>
+                    <select id="categoria_topico" name="categoria_topico" class="cyber-select" required>
                         <option value="" disabled selected>Selecione uma categoria</option>
                         <option value="fps">FPS</option>
                         <option value="rpg">RPG</option>
@@ -38,11 +40,50 @@
 
                 <div class="input-group">
                     <label>Conteúdo</label>
-                    <textarea name="conteudo_topico" rows="6" placeholder="Escreva aqui sua discussão..." class="cyber-textarea" required></textarea>
+                    <textarea id="conteudo_topico" name="conteudo_topico" rows="6" placeholder="Escreva aqui sua discussão..." class="cyber-textarea" required></textarea>
                 </div>
 
                 <button type="submit" class="btn-new-topic" style="width: 100%; margin-top: 20px;">PUBLICAR TÓPICO</button>
             </form>
+        </div>
+    </main>
+
+    <script>
+        document.getElementById('formCriarTopico').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const titulo = document.getElementById('titulo_topico').value;
+            const categoria = document.getElementById('categoria_topico').value;
+            const conteudo = document.getElementById('conteudo_topico').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/topics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Envia cookies de autenticação
+                    body: JSON.stringify({
+                        titulo_topico: titulo,
+                        categoria_topico: categoria,
+                        conteudo_topico: conteudo
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Tópico criado com sucesso!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.message || 'Erro ao criar tópico');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+    </script>
         </div>
     </main>
 </body>

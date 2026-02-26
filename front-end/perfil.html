@@ -11,6 +11,7 @@
         <div class="logo">GAMER ALPHA</div>
         <div class="nav-links">
             <a href="index.html">HOME</a>
+            <a href="perfil.html">PERFIL</a>
             <a href="criar_topico.html" style="color: #00f5ff; font-weight: bold;">+ NOVO TÓPICO</a>
             <a href="login.html" class="btn-logout">SAIR</a>
         </div>
@@ -40,19 +41,84 @@
 
         <h2 style="color: #00f5ff; margin-top: 40px; text-shadow: 0 0 10px #00f5ff;">Meus Tópicos Criados</h2>
         
-        <div class="feed">
-            <div class="post-card">
-                <div class="post-info">
-                    <span class="tag tag-fps">FPS</span>
-                    <h3>Dicas para Rankear no Valorant</h3>
-                    <p>Postado em: 26/01/2026</p>
-                </div>
-                <div class="post-stats">
-                    <a href="editar_topico.html" class="tag" style="background: #ff00ff; text-decoration: none; color: white; cursor: pointer;">Editar Post</a>
-                    <span>❤️ 12</span>
-                </div>
-            </div>
+        <div class="feed" id="userTopicsFeed">
+            <p style="color: #ccc; text-align: center;">Carregando tópicos...</p>
         </div>
     </main>
+
+    <script>
+        // Carregar tópicos do usuário
+        async function loadUserTopics() {
+            try {
+                const response = await fetch('http://localhost:3000/api/users/me/topics', {
+                    credentials: 'include'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Não autenticado');
+                }
+                
+                const data = await response.json();
+                const feed = document.getElementById('userTopicsFeed');
+                feed.innerHTML = '';
+                
+                if (!data.topics || data.topics.length === 0) {
+                    feed.innerHTML = '<p style="color: #ccc; text-align: center;">Você ainda não criou nenhum tópico. <a href="criar_topico.html" style="color: #00f5ff;">Criar um agora</a></p>';
+                    return;
+                }
+                
+                data.topics.forEach(topic => {
+                    const card = document.createElement('div');
+                    card.className = 'post-card';
+                    
+                    const categoryColor = getCategoryColor(topic.slug);
+                    
+                    card.innerHTML = `
+                        <div class="post-info">
+                            <span class="tag" style="background: ${categoryColor};">${topic.category}</span>
+                            <h3>${escapeHtml(topic.title)}</h3>
+                            <p>Postado em: ${formatDate(topic.created_at)}</p>
+                        </div>
+                        <div class="post-stats">
+                            <a href="editar_topico.html?id=${topic.id}" class="tag" style="background: #ff00ff; text-decoration: none; color: white; cursor: pointer;">Editar</a>
+                            <span>❤️ ${topic.likes_count}</span>
+                            <span>💬 ${topic.comments_count}</span>
+                        </div>
+                    `;
+                    
+                    feed.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar tópicos:', error);
+                document.getElementById('userTopicsFeed').innerHTML = '<p style="color: #ff0055;">Erro ao carregar tópicos. Você precisa estar logado!</p>';
+            }
+        }
+
+        function getCategoryColor(slug) {
+            const colors = {
+                'fps': '#00f5ff',
+                'rpg': '#ff00ff',
+                'moba': '#7000ff',
+                'estrategia': '#ffcc00',
+                'esports': '#00ff88',
+                'hardware': '#ff6600'
+            };
+            return colors[slug] || '#00f5ff';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR') + ' às ' + date.toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Carregar ao abrir página
+        loadUserTopics();
+    </script>
 </body>
 </html>

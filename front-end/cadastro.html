@@ -11,20 +11,20 @@
         <h1>CRIAR CONTA</h1>
         <p>Junte-se à nossa comunidade!</p>
 
-        <form action="cadastro_process.php" method="POST">
+        <form id="formCadastro">
             <div class="input-group">
                 <label>Nome de Usuário</label>
-                <input type="text" name="usuario_cadastro" placeholder="Como quer ser chamado?" required>
+                <input type="text" id="usuario_cadastro" name="usuario_cadastro" placeholder="Como quer ser chamado?" required>
             </div>
 
             <div class="input-group">
                 <label>E-mail</label>
-                <input type="email" name="email_cadastro" placeholder="seuemail@exemplo.com" required>
+                <input type="email" id="email_cadastro" name="email_cadastro" placeholder="seuemail@exemplo.com" required>
             </div>
 
             <div class="input-group">
                 <label>Senha</label>
-                <input type="password" name="senha_cadastro" placeholder="Crie uma senha forte" required>
+                <input type="password" id="senha_cadastro" name="senha_cadastro" placeholder="Crie uma senha forte" required>
             </div>
 
             <button type="submit" class="btn-action btn-cadastro" style="background-color: #ff00ff;">CADASTRAR</button>
@@ -33,6 +33,39 @@
         <div class="footer-links">
             <p>Já tem conta? <a href="login.html" class="link-destaque" style="color: #ff00ff;">Fazer Login</a></p>
         </div>
-    </div> 
+    </div>
+
+    <script>
+        document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('usuario_cadastro').value;
+            const email = document.getElementById('email_cadastro').value;
+            const password = document.getElementById('senha_cadastro').value;
+
+            try {
+                const response = await fetch('http://localhost:3000/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Cadastro realizado com sucesso!');
+                    window.location.href = 'index.html';
+                } else {
+                    alert(data.message || 'Erro ao cadastrar');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor');
+            }
+        });
+    </script> 
 </body>
 </html>

@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 // credentials: true permite envio de cookies entre frontend e backend
  */
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5500',
+  origin: ['http://localhost:3000', 'http://localhost:5500', 'http://127.0.0.1:3000'],
   credentials: true,
 }));
 
