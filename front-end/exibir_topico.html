@@ -40,6 +40,11 @@
             </form>
 
             <div id="comments-list"></div>
+                <div class="comentario-card">
+                    <p><strong>${comment.username}</strong> <small style="color: #888;">${formatDate(comment.created_at)}</small></p>
+                    <p>${comment.content}</p>
+                    <button class="btn-denunciar" data-comment-id="${comment.id}">Denunciar</button>
+                </div>
         </section>
     </main>
     <script src="app.js"></script>

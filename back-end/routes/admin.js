@@ -7,6 +7,61 @@ const router = express.Router();
 router.use(authMiddleware);
 router.use(adminMiddleware);
 
+// Listar denúncias de comentários
+router.get('/reports/comments', async (req, res) => {
+  try {
+    const result = await query(`
+      SELECT 
+        rc.id,
+        rc.reason,
+        rc.status,
+        rc.created_at,
+        c.id as comment_id,
+        c.content as comment_content,
+        u.username as reporter,
+        cu.username as commented_by
+      FROM reports_comments rc
+      JOIN comments c ON rc.comment_id = c.id
+      JOIN users u ON rc.reporter_user_id = u.id
+      JOIN users cu ON c.user_id = cu.id
+      WHERE rc.status = 'pending'
+      ORDER BY rc.created_at DESC
+    `);
+    res.json({ reports: result.rows });
+  } catch (error) {
+    console.error('Erro ao listar denúncias de comentários:', error);
+    res.status(500).json({ message: 'Erro ao listar denúncias de comentários' });
+  }
+});
+
+// Resolver denúncia de comentário
+router.post('/reports/comments/:id/resolve', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { action } = req.body; // 'excluir' ou 'ignorar'
+
+    const reportResult = await query('SELECT comment_id FROM reports_comments WHERE id = $1', [id]);
+    if (reportResult.rows.length === 0) {
+      return res.status(404).json({ message: 'Denúncia não encontrada' });
+    }
+
+    if (action === 'excluir') {
+      await query('DELETE FROM comments WHERE id = $1', [reportResult.rows[0].comment_id]);
+      await query('DELETE FROM reports_comments WHERE id = $1', [id]);
+      res.json({ message: 'Comentário deletado com sucesso' });
+    } else if (action === 'ignorar') {
+      await query('UPDATE reports_comments SET status = $1 WHERE id = $2', ['resolved', id]);
+      res.json({ message: 'Denúncia ignorada' });
+    } else {
+      res.status(400).json({ message: 'Ação inválida' });
+    }
+  } catch (error) {
+    console.error('Erro ao resolver denúncia de comentário:', error);
+    res.status(500).json({ message: 'Erro ao resolver denúncia de comentário' });
+  }
+});
+router.use(adminMiddleware);
+
 router.post('/categories', async (req, res) => {
   try {
     const { name } = req.body;

@@ -1,9 +1,35 @@
+
 const express = require('express');
 const { query } = require('../config/database');
 const { authMiddleware } = require('../middleware/auth');
 const { validarConteudo } = require('../middleware/profanityFilter');
 
 const router = express.Router();
+
+// Denunciar comentário
+router.post('/comments/:id/report', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+    const reporter_user_id = req.user.id;
+
+    // Verifica se comentário existe
+    const commentResult = await query('SELECT id FROM comments WHERE id = $1', [id]);
+    if (commentResult.rows.length === 0) {
+      return res.status(404).json({ success: false, message: 'Comentário não encontrado' });
+    }
+
+    // Insere denúncia
+    await query(
+      'INSERT INTO reports_comments (comment_id, reporter_user_id, reason) VALUES ($1, $2, $3)',
+      [id, reporter_user_id, reason]
+    );
+    res.json({ success: true, message: 'Comentário denunciado com sucesso' });
+  } catch (error) {
+    console.error('Erro ao denunciar comentário:', error);
+    res.status(500).json({ success: false, message: 'Erro ao denunciar comentário' });
+  }
+});
 
 router.get('/', async (req, res) => {
   try {

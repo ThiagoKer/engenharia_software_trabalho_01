@@ -40,13 +40,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Gamer Alpha API está funcionando!' });
 });
 
-app.use(express.static(path.join(__dirname, '../front-end')));
+// serve arquivos estáticos do front-end localizado dentro do mesmo repositório
+app.use(express.static(path.join(__dirname, '..', 'front-end')));
 
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api')) {
     return res.status(404).json({ message: 'Rota não encontrada' });
   }
-  res.sendFile(path.join(__dirname, '../front-end/index.html'));
+  // agora procura o index.html no diretório correto do front-end
+  res.sendFile(path.join(__dirname, '..', 'front-end', 'index.html'));
 });
 
 app.use((err, req, res, next) => {

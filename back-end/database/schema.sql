@@ -1,12 +1,3 @@
--- Tabela de denúncias de comentários
-CREATE TABLE reports_comments (
-    id SERIAL PRIMARY KEY,
-    comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
-    reporter_user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    reason TEXT,
-    status VARCHAR(20) DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 -- Schema do Banco de Dados para Gamer Alpha Forum
 
 -- Criação do banco de dados (executar separadamente se necessário)
@@ -77,7 +68,15 @@ CREATE TABLE reports (
     status VARCHAR(20) DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+ 
+ CREATE TABLE reports_comments (
+    id SERIAL PRIMARY KEY,
+    comment_id INTEGER NOT NULL REFERENCES comments(id) ON DELETE CASCADE,
+    reporter_user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    reason TEXT,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 -- Índices para melhorar performance
 CREATE INDEX idx_topics_user_id ON topics(user_id);
 CREATE INDEX idx_topics_category_id ON topics(category_id);

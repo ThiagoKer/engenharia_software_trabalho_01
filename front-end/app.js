@@ -182,12 +182,37 @@ async function initTopicView() {
     .map((comment) => {
       return `
         <div class="comentario-card">
-          <p><strong>${comment.username}</strong> <small style="color: #888;">${formatDate(comment.created_at)}</small></p>
+          <p><strong>${comment.username}</strong> <small style=\"color: #888;\">${formatDate(comment.created_at)}</small></p>
           <p>${comment.content}</p>
+          <button class=\"btn-denunciar\" data-comment-id=\"${comment.id}\">Denunciar</button>
         </div>
       `;
     })
     .join("");
+
+  // Adiciona handler de clique para denúncia
+  document.querySelectorAll('.btn-denunciar').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const commentId = btn.getAttribute('data-comment-id');
+      const motivo = prompt('Descreva o motivo da denúncia:');
+      if (!motivo) return;
+      // Chamada à API para denunciar comentário (endpoint será implementado)
+      try {
+        const resp = await apiFetch(`/api/topics/comments/${commentId}/report`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+          body: JSON.stringify({ reason: motivo })
+        });
+        if (resp && resp.success) {
+          alert('Comentário denunciado com sucesso!');
+        } else {
+          alert(resp && resp.message ? resp.message : 'Erro ao denunciar comentário.');
+        }
+      } catch (err) {
+        alert('Erro ao denunciar comentário.');
+      }
+    });
+  });
 }
 
 async function initEditTopic() {
@@ -236,25 +261,89 @@ async function initAdmin() {
     })
     .join("");
 
+  // Buscar denúncias de tópicos
   const reportsResult = await apiFetch("/api/admin/reports");
-  if (!reportsResult) return;
+  // Buscar denúncias de comentários
+  const commentReportsResult = await apiFetch("/api/admin/reports/comments");
+  if (!reportsResult && !commentReportsResult) return;
 
-  reportsContainer.innerHTML = reportsResult.reports
-    .map((report) => {
-      return `
-        <div class="post-card" style="background: rgba(255, 0, 0, 0.1); border-left: 5px solid #ff0055; margin-top: 15px; padding: 15px;">
-          <div class="post-info">
-            <h3 style="color: white;">[DENUNCIA] ${report.title}</h3>
-            <p style="color: #ccc;">Reportado por: <strong>${report.reporter}</strong></p>
+  let html = '';
+  if (reportsResult && reportsResult.reports.length > 0) {
+    html += '<h3 style="color:#ff0055;">Denúncias de Tópicos</h3>';
+    html += reportsResult.reports
+      .map((report) => {
+        return `
+          <div class="post-card" style="background: rgba(255, 0, 0, 0.1); border-left: 5px solid #ff0055; margin-top: 15px; padding: 15px;">
+            <div class="post-info">
+              <h4 style="color: white;">${report.title}</h4>
+              <p style="color: #ccc;">Reportado por: <strong>${report.reporter}</strong></p>
+              <p style="color: #ccc;">Motivo: ${report.reason || 'Não informado'}</p>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button data-report-action="excluir" data-report-id="${report.id}" class="btn-logout" style="background: #ff0055; padding: 8px 15px; border: none; cursor: pointer;">EXCLUIR</button>
+              <button data-report-action="ignorar" data-report-id="${report.id}" class="tag" style="background: #333; padding: 8px 15px; border: none; cursor: pointer; color: white;">IGNORAR</button>
+            </div>
           </div>
-          <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <button data-report-action="excluir" data-report-id="${report.id}" class="btn-logout" style="background: #ff0055; padding: 8px 15px; border: none; cursor: pointer;">EXCLUIR</button>
-            <button data-report-action="ignorar" data-report-id="${report.id}" class="tag" style="background: #333; padding: 8px 15px; border: none; cursor: pointer; color: white;">IGNORAR</button>
+        `;
+      })
+      .join("");
+  }
+  if (commentReportsResult && commentReportsResult.reports.length > 0) {
+    html += '<h3 style="color:#ff0055; margin-top:30px;">Denúncias de Comentários</h3>';
+    html += commentReportsResult.reports
+      .map((report) => {
+        return `
+          <div class="post-card" style="background: rgba(255, 0, 0, 0.08); border-left: 5px solid #ff0055; margin-top: 15px; padding: 15px;">
+            <div class="post-info">
+              <h4 style="color: white;">Comentário de ${report.commented_by}</h4>
+              <p style="color: #ccc;">Conteúdo: <em>${report.comment_content}</em></p>
+              <p style="color: #ccc;">Reportado por: <strong>${report.reporter}</strong></p>
+              <p style="color: #ccc;">Motivo: ${report.reason || 'Não informado'}</p>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button data-comment-report-action="excluir" data-comment-report-id="${report.id}" class="btn-logout" style="background: #ff0055; padding: 8px 15px; border: none; cursor: pointer;">EXCLUIR</button>
+              <button data-comment-report-action="ignorar" data-comment-report-id="${report.id}" class="tag" style="background: #333; padding: 8px 15px; border: none; cursor: pointer; color: white;">IGNORAR</button>
+            </div>
           </div>
-        </div>
-      `;
-    })
-    .join("");
+        `;
+      })
+      .join("");
+  }
+  if (!html) {
+    html = '<p style="color:#ccc;">Nenhuma denúncia pendente.</p>';
+  }
+  reportsContainer.innerHTML = html;
+
+  // Handlers para denúncias de tópicos
+  document.querySelectorAll('[data-report-action]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-report-id');
+      const action = btn.getAttribute('data-report-action');
+      if (!id || !action) return;
+      if (!confirm('Tem certeza?')) return;
+      const resp = await apiFetch(`/api/admin/reports/${id}/resolve`, {
+        method: 'POST',
+        body: JSON.stringify({ action })
+      });
+      if (resp && resp.message) alert(resp.message);
+      await initAdmin();
+    });
+  });
+  // Handlers para denúncias de comentários
+  document.querySelectorAll('[data-comment-report-action]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const id = btn.getAttribute('data-comment-report-id');
+      const action = btn.getAttribute('data-comment-report-action');
+      if (!id || !action) return;
+      if (!confirm('Tem certeza?')) return;
+      const resp = await apiFetch(`/api/admin/reports/comments/${id}/resolve`, {
+        method: 'POST',
+        body: JSON.stringify({ action })
+      });
+      if (resp && resp.message) alert(resp.message);
+      await initAdmin();
+    });
+  });
 }
 
 async function initEditProfile() {
@@ -409,13 +498,38 @@ async function init() {
           commentsList.innerHTML = commentsResult.comments
             .map((comment) => {
               return `
-                <div class="comentario-card">
-                  <p><strong>${comment.username}</strong> <small style="color: #888;">${formatDate(comment.created_at)}</small></p>
+                <div class=\"comentario-card\">
+                  <p><strong>${comment.username}</strong> <small style=\"color: #888;\">${formatDate(comment.created_at)}</small></p>
                   <p>${comment.content}</p>
+                  <button class=\"btn-denunciar\" data-comment-id=\"${comment.id}\">Denunciar</button>
                 </div>
               `;
             })
             .join("");
+
+          // Adiciona handler de clique para denúncia
+          document.querySelectorAll('.btn-denunciar').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              const commentId = btn.getAttribute('data-comment-id');
+              const motivo = prompt('Descreva o motivo da denúncia:');
+              if (!motivo) return;
+              // Chamada à API para denunciar comentário (endpoint será implementado)
+              try {
+                const resp = await apiFetch(`/api/comments/${commentId}/report`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
+                  body: JSON.stringify({ reason: motivo })
+                });
+                if (resp && resp.success) {
+                  alert('Comentário denunciado com sucesso!');
+                } else {
+                  alert(resp && resp.message ? resp.message : 'Erro ao denunciar comentário.');
+                }
+              } catch (err) {
+                alert('Erro ao denunciar comentário.');
+              }
+            });
+          });
           
           const newCount = commentsResult.comments.length;
           commentsTitle.textContent = `Comentários (${newCount})`;
